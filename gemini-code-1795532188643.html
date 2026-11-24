@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Micro-actividad 1.1 · Quiz de Auditoría Ética de IA</title>
+  <style>
+    :root {
+      --unesco-blue: #005596;
+      --unesco-dark: #003b69;
+      --unesco-accent: #0077c8;
+      --unesco-light: #e6f0f8;
+      --bg-page: #f4f7fa;
+      --bg-card: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #475569;
+      --border-subtle: #cbd5e1;
+
+      --ok-bg: #ecfdf5;
+      --ok-border: #6ee7b7;
+      --ok-text: #065f46;
+      --ok-accent: #059669;
+
+      --err-bg: #fef2f2;
+      --err-border: #fca5a5;
+      --err-text: #991b1b;
+      --err-accent: #dc2626;
+
+      --warn-bg: #fffbeb;
+      --warn-border: #fcd34d;
+      --warn-text: #92400e;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--unesco-dark) 0%, var(--unesco-blue) 100%);
+      color: #ffffff;
+      padding: 1.85rem 1.25rem;
+      border-bottom: 4px solid var(--unesco-accent);
+    }
+
+    .container {
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    .badge-top {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      padding: 0.28rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    header h1 {
+      font-size: clamp(1.35rem, 2.8vw, 1.95rem);
+      font-weight: 700;
+      line-height: 1.22;
+      margin-bottom: 0.45rem;
+    }
+
+    header p {
+      font-size: 0.94rem;
+      color: #e2e8f0;
+      max-width: 740px;
+    }
+
+    /* Barra de estado superior */
+    .status-bar {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0.75rem 1.25rem;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+    }
+
+    .status-inner {
+      max-width: 880px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.65rem;
+      font-size: 0.84rem;
+    }
+
+    .status-pills {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .pill-info {
+      background: #f1f5f9;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 0.28rem 0.65rem;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+
+    .pill-save {
+      background: var(--ok-bg);
+      border: 1px solid var(--ok-border);
+      color: var(--ok-text);
+      padding: 0.28rem 0.65rem;
+      border-radius: 999px;
+      font-weight: 600;
+      transition: opacity 0.25s ease;
+    }
+
+    .pill-timer {
+      background: var(--unesco-light);
+      border: 1px solid #93c5fd;
+      color: var(--unesco-dark);
+      padding: 0.28rem 0.75rem;
+      border-radius: 999px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .pill-timer.warning {
+      background: var(--err-bg);
+      border-color: var(--err-border);
+      color: var(--err-text);
+    }
+
+    main {
+      padding: 1.75rem 1.25rem 3rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 0.8rem;
+      padding: 1.65rem;
+      box-shadow: 0 3px 10px rgba(15, 23, 42, 0.04);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Registro inicial */
+    .form-group {
+      margin-bottom: 1.1rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.35rem;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.68rem 0.85rem;
+      border: 1px solid var(--border-subtle);
+      border-radius: 0.5rem;
+      font-size: 0.95rem;
+      color: var(--text-main);
+      background: #ffffff;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--unesco-blue);
+      box-shadow: 0 0 0 3px rgba(0, 85, 150, 0.14);
+    }
+
+    .info-callout {
+      background: var(--unesco-light);
+      border-left: 4px solid var(--unesco-blue);
+      padding: 0.85rem 1rem;
+      border-radius: 0.45rem;
+      font-size: 0.88rem;
+      color: var(--unesco-dark);
+      margin-bottom: 1.35rem;
+    }
+
+    .resume-box {
+      background: var(--warn-bg);
+      border: 1px solid var(--warn-border);
+      color: var(--warn-text);
+      padding: 1rem;
+      border-radius: 0.6rem;
+      margin-bottom: 1.35rem;
+      font-size: 0.88rem;
+    }
+
+    /* Botones */
+    .btn {
+      appearance: none;
+      border: none;
+      border-radius: 0.5rem;
+      padding: 0.72rem 1.25rem;
+      font-size: 0.93rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.16s ease, opacity 0.16s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+    }
+
+    .btn:disabled {
+      opacity: 0.48;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: var(--unesco-blue);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--unesco-dark);
+    }
+
+    .btn-secondary {
+      background: #f1f5f9;
+      color: var(--text-main);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: #e2e8f0;
+    }
+
+    .btn-block {
+      width: 100%;
+    }
+
+    /* Barra de progreso del Quiz */
+    .progress-wrap {
+      margin-bottom: 1.35rem;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--unesco-blue);
+      width: 20%;
+      transition: width 0.3s ease;
+    }
+
+    /* Escenario y Opciones */
+    .scenario-tag {
+      display: inline-block;
+      background: var(--unesco-light);
+      color: var(--unesco-blue);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.22rem 0.65rem;
+      border-radius: 0.35rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .scenario-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--unesco-dark);
+      margin-bottom: 0.75rem;
+    }
+
+    .scenario-context {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-left: 4px solid #64748b;
+      padding: 1rem 1.1rem;
+      border-radius: 0.5rem;
+      font-size: 0.94rem;
+      color: var(--text-main);
+      margin-bottom: 1.2rem;
+    }
+
+    .question-text {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.9rem;
+    }
+
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.85rem 1rem;
+      border: 2px solid var(--border-subtle);
+      border-radius: 0.6rem;
+      background: #ffffff;
+      cursor: pointer;
+      text-align: left;
+      font-size: 0.92rem;
+      color: var(--text-main);
+      transition: all 0.15s ease;
+    }
+
+    .option-item:hover:not(.locked) {
+      border-color: var(--unesco-blue);
+      background: #f8fafc;
+    }
+
+    .option-item.selected {
+      border-color: var(--unesco-blue);
+      background: var(--unesco-light);
+    }
+
+    .option-item.correct {
+      border-color: var(--ok-accent);
+      background: var(--ok-bg);
+      color: var(--ok-text);
+    }
+
+    .option-item.incorrect {
+      border-color: var(--err-accent);
+      background: var(--err-bg);
+      color: var(--err-text);
+    }
+
+    .option-letter {
+      flex-shrink: 0;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      color: var(--text-main);
+      font-weight: 700;
+      font-size: 0.82rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .option-item.selected .option-letter {
+      background: var(--unesco-blue);
+      color: #ffffff;
+    }
+
+    .option-item.correct .option-letter {
+      background: var(--ok-accent);
+      color: #ffffff;
+    }
+
+    .option-item.incorrect .option-letter {
+      background: var(--err-accent);
+      color: #ffffff;
+    }
+
+    /* Caja de Retroalimentación */
+    .feedback-box {
+      padding: 1rem 1.15rem;
+      border-radius: 0.6rem;
+      border: 1px solid;
+      margin-bottom: 1.25rem;
+      font-size: 0.91rem;
+    }
+
+    .feedback-box.ok {
+      background: var(--ok-bg);
+      border-color: var(--ok-border);
+      color: var(--ok-text);
+    }
+
+    .feedback-box.err {
+      background: var(--err-bg);
+      border-color: var(--err-border);
+      color: var(--err-text);
+    }
+
+    .feedback-box h4 {
+      font-size: 0.98rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .nav-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    /* Resultados Finales */
+    .score-hero {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      background: var(--unesco-light);
+      border: 1px solid #bfdbfe;
+      border-radius: 0.75rem;
+      margin-bottom: 1.35rem;
+    }
+
+    .score-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--unesco-dark);
+      line-height: 1.1;
+      margin: 0.35rem 0;
+    }
+
+    .level-badge {
+      display: inline-block;
+      background: var(--unesco-blue);
+      color: #ffffff;
+      padding: 0.32rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 0.65rem;
+    }
+
+    .mail-status-banner {
+      padding: 0.9rem 1rem;
+      border-radius: 0.6rem;
+      border: 1px solid;
+      margin-bottom: 1.35rem;
+      font-size: 0.88rem;
+    }
+
+    .mail-status-banner.sending {
+      background: var(--unesco-light);
+      border-color: #93c5fd;
+      color: var(--unesco-dark);
+    }
+
+    .mail-status-banner.sent {
+      background: var(--ok-bg);
+      border-color: var(--ok-border);
+      color: var(--ok-text);
+    }
+
+    .mail-status-banner.error {
+      background: var(--warn-bg);
+      border-color: var(--warn-border);
+      color: var(--warn-text);
+    }
+
+    .summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.35rem;
+      font-size: 0.88rem;
+    }
+
+    .summary-table th, .summary-table td {
+      border: 1px solid var(--border-subtle);
+      padding: 0.65rem 0.8rem;
+      text-align: left;
+    }
+
+    .summary-table th {
+      background: #f1f5f9;
+      color: var(--unesco-dark);
+      font-weight: 700;
+    }
+
+    .action-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 0.65rem;
+      margin-top: 1rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-subtle);
+      background: #ffffff;
+    }
+
+    @media print {
+      .status-bar, .action-grid, footer { display: none !important; }
+      body { background: #ffffff; }
+      .card { border: none; box-shadow: none; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <div class="badge-top">Ámbito 2: Ética de la IA · Nivel 3: Crear (UNESCO)</div>
+      <h1>Micro-actividad 1.1: Auditoría Exprés de Plataformas Escolares</h1>
+      <p>Identificación de violaciones éticas y cláusulas abusivas en 5 escenarios hipotéticos de plataformas educativas con retroalimentación inmediata.</p>
+    </div>
+  </header>
+
+  <div class="status-bar hidden" id="status-bar">
+    <div class="status-inner">
+      <div class="status-pills">
+        <span class="pill-info" id="user-display">Participante</span>
+        <span class="pill-save" id="save-indicator">Progreso guardado</span>
+      </div>
+      <div class="pill-timer" id="timer-display">15:00</div>
+    </div>
+  </div>
+
+  <main class="container">
+    <!-- PANTALLA 1: REGISTRO INICIAL -->
+    <section class="card" id="screen-register">
+      <h2 style="font-size:1.25rem; color:#003b69; margin-bottom:0.5rem;">Registro del Participante</h2>
+      <p style="font-size:0.92rem; color:#475569; margin-bottom:1.2rem;">
+        Ingresa tus datos para iniciar la auditoría. Tus respuestas se guardarán automáticamente en este navegador y recibirás una copia de tu calificación en tu correo al finalizar.
+      </p>
+
+      <div id="resume-container" class="resume-box hidden"></div>
+
+      <div class="info-callout">
+        <strong>Instrucciones:</strong> Analiza cada uno de los 5 escenarios escolares (duración sugerida: 15 minutos), selecciona la respuesta correcta y confirma tu elección para desplegar el dictamen normativo.
+      </div>
+
+      <form id="register-form" onsubmit="startQuiz(event)">
+        <div class="form-group">
+          <label for="input-name">Nombre completo *</label>
+          <input type="text" id="input-name" class="form-control" placeholder="Ej. Ana María Gómez" required minlength="3" />
+        </div>
+        <div class="form-group">
+          <label for="input-email">Correo electrónico institucional o personal *</label>
+          <input type="email" id="input-email" class="form-control" placeholder="ejemplo@institucion.edu.co" required />
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Comenzar Micro-actividad 1.1</button>
+      </form>
+    </section>
+
+    <!-- PANTALLA 2: QUIZ INTERACTIVO -->
+    <section class="card hidden" id="screen-quiz">
+      <div class="progress-wrap">
+        <div class="progress-header">
+          <span id="progress-label">Escenario 1 de 5</span>
+          <span id="score-live">Puntaje actual: 0 / 5</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+      </div>
+
+      <div id="scenario-container"></div>
+
+      <div id="feedback-container" class="hidden"></div>
+
+      <div class="nav-actions">
+        <button type="button" class="btn btn-secondary" id="btn-prev" onclick="prevQuestion()">Anterior</button>
+        <div style="display:flex; gap:0.6rem;">
+          <button type="button" class="btn btn-primary" id="btn-confirm" onclick="confirmAnswer()" disabled>Confirmar respuesta</button>
+          <button type="button" class="btn btn-primary hidden" id="btn-next" onclick="nextQuestion()">Siguiente escenario</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PANTALLA 3: RESULTADOS Y ENVÍO DE NOTA -->
+    <section class="card hidden" id="screen-results">
+      <div class="score-hero">
+        <div class="level-badge" id="res-level">Nivel alcanzado</div>
+        <div class="score-number" id="res-score">0 / 5</div>
+        <p id="res-meta" style="font-size:0.88rem; color:#334155;"></p>
+      </div>
+
+      <div class="mail-status-banner sending" id="mail-banner">
+        Preparando envío automático de copia de calificación...
+      </div>
+
+      <p id="res-feedback-global" style="font-size:0.93rem; color:#1e293b; margin-bottom:1.25rem;"></p>
+
+      <table class="summary-table">
+        <thead>
+          <tr>
+            <th>Escenario</th>
+            <th>Tu respuesta</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody id="res-table-body"></tbody>
+      </table>
+
+      <div class="action-grid">
+        <button type="button" class="btn btn-primary" onclick="sendEmailAutomatically(true)">Reenviar copia a mi correo</button>
+        <button type="button" class="btn btn-secondary" onclick="openMailtoFallback()">Abrir en mi app de correo</button>
+        <button type="button" class="btn btn-secondary" onclick="copyReportToClipboard()">Copiar reporte al portapapeles</button>
+        <button type="button" class="btn btn-secondary" onclick="window.print()">Imprimir / Guardar PDF</button>
+      </div>
+
+      <div style="margin-top:1.25rem; text-align:right;">
+        <button type="button" class="btn btn-secondary" style="font-size:0.8rem; padding:0.45rem 0.8rem;" onclick="resetAllData()">Reiniciar intento</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Micromódulo 1: Auditoría Ética y Guías de Uso Institucional de la IA · Marco de Competencias UNESCO (Nivel Crear).
+  </footer>
+
+  <script>
+    // =========================================================================
+    // CONFIGURACIÓN DE ENVÍO AUTOMÁTICO (Opcional para el docente creador)
+    // =========================================================================
+    const CONFIG_ENVIO = {
+      // Si deseas recibir copia oculta/directa de todas las entregas, escribe aquí tu correo:
+      CORREO_DOCENTE_COPIA: "",
+      // Opcional: URL de Google Apps Script / Webhook propio si decides usarlo en el futuro:
+      WEBHOOK_PERSONALIZADO_URL: ""
+    };
+
+    const STORAGE_KEY = "micro_act_1_1_unesco_v2";
+    const TOTAL_SECONDS = 15 * 60;
+
+    const QUESTIONS = [
+      {
+        id: 1,
+        tag: "Escenario 1 · Términos de Servicio y Soberanía de Datos",
+        title: "La plataforma gratuita de «Tutoría Personalizada»",
+        context: "Un docente de secundaria encuentra una nueva plataforma web gratuita llamada TutorIA Express. Al revisar la letra pequeña de sus Términos de Servicio (ToS), lee la siguiente cláusula: «Al subir ensayos, calificaciones o perfiles de estudiantes, la institución cede a TutorIA Express una licencia mundial, perpetua e irrevocable para utilizar dichos textos y métricas con el fin de entrenar y comercializar nuestros futuros modelos de lenguaje».",
+        question: "¿Cuál es el principal riesgo ético y normativo que presenta esta cláusula para la comunidad escolar?",
+        options: [
+          "Falta de sostenibilidad ambiental por el uso de servidores en la nube.",
+          "Explotación comercial de datos de menores y pérdida de soberanía sobre la información institucional.",
+          "Usurpación de la función evaluativa del docente mediante calificación automática.",
+          "Exclusión lingüística por no estar adaptada al idioma local."
+        ],
+        correct: 1,
+        feedbackOk: "¡Excelente auditoría! Según el marco de la UNESCO, la minería de datos para entrenar modelos comerciales pone en grave riesgo los derechos y la privacidad de los menores. Nunca se deben subir trabajos ni datos identificables de estudiantes a plataformas abiertas que moneticen o reentrenen sus algoritmos con las interacciones del aula.",
+        feedbackErr: "Revisa nuevamente la cláusula contractual. El texto evidencia explícitamente una explotación comercial de datos y cesión perpetua de derechos sobre los trabajos estudiantiles para entrenar modelos externos (riesgo crítico en los Términos de Servicio)."
+      },
+      {
+        id: 2,
+        tag: "Escenario 2 · Vigilancia Biométrica y Reconocimiento Emocional",
+        title: "El sistema de «Atención y Clima Emocional en el Aula»",
+        context: "Una empresa tecnológica ofrece a la rectoría del colegio instalar un software de IA conectado a las cámaras de los salones y a las tabletas de los alumnos. El proveedor promete generar un «mapa emocional en tiempo real» para alertar al profesor cuando un estudiante esté aburrido, distraído o frustrado.",
+        question: "De acuerdo con los estándares regulatorios internacionales (como la Ley de IA de la Unión Europea) y las directrices de la UNESCO, ¿cómo debe categorizarse y gestionarse esta herramienta?",
+        options: [
+          "Riesgo Bajo: puede aprobarse en la lista blanca institucional si los padres firman un permiso.",
+          "Riesgo Medio: puede usarse siempre que el docente anonimice los rostros en el informe final.",
+          "Riesgo Alto / Práctica Prohibida: debe rechazarse por constituir vigilancia biométrica y reconocimiento emocional intrusivo.",
+          "Riesgo Limitado: solo requiere que la plataforma etiquete que el reporte fue generado por IA."
+        ],
+        correct: 2,
+        feedbackOk: "¡Correcto! Las normativas internacionales de referencia (como la Ley de IA de la UE citada por la UNESCO) prohíben los sistemas de reconocimiento emocional mediante cámaras o micrófonos en entornos educativos —salvo excepciones estrictas de accesibilidad médica o discapacidad— por vulnerar la dignidad, la privacidad y el principio de «no hacer daño».",
+        feedbackErr: "Cuidado con este escenario. El monitoreo biométrico y la inferencia de emociones en el aula no se solucionan con anonimización ni etiquetas; constituyen una práctica inaceptable/prohibida en la escuela por atentar contra los derechos fundamentales de los menores."
+      },
+      {
+        id: 3,
+        tag: "Escenario 3 · Explicabilidad y Responsabilidad Humana",
+        title: "El calificador sumativo automático «EvalúaPro»",
+        context: "Para reducir la carga laboral al final del trimestre, la coordinación académica evalúa adquirir EvalúaPro, una IA que califica automáticamente los exámenes finales, decide quién reprueba la asignatura y clasifica a los estudiantes en grupos de nivelación. En la Guía para Usuarios, el proveedor aclara que «el algoritmo es propiedad intelectual privada, por lo que no se revelan los criterios de ponderación ni se permite modificar manualmente la nota final emitida».",
+        question: "¿Qué par de principios éticos fundamentales vulnera directamente el diseño de esta plataforma?",
+        options: [
+          "Sostenibilidad ambiental y proporcionalidad ecológica.",
+          "Explicabilidad/transparencia y responsabilidad/determinación humana.",
+          "Diversidad lingüística y protección de derechos de autor.",
+          "Adecuación por edad y prevención de patrones adictivos."
+        ],
+        correct: 1,
+        feedbackOk: "¡Exacto! Las herramientas usadas para calificar o clasificar estudiantes son sistemas de alto riesgo. El diseño de «caja negra» viola el derecho de docentes y familias a cuestionar la explicabilidad de los resultados, mientras que impedir la modificación de la nota usurpa la responsabilidad humana legítima del docente en la evaluación.",
+        feedbackErr: "Analiza los dos fallos descritos en el caso: (1) ocultar cómo califica el algoritmo («caja negra» = falta de transparencia/explicabilidad) y (2) impedir que el profesor modifique el veredicto (usurpación de la determinación y responsabilidad humana)."
+      },
+      {
+        id: 4,
+        tag: "Escenario 4 · Auditoría de Model Cards y Sesgos Algorítmicos",
+        title: "El asistente de orientación vocacional y becas",
+        context: "Un colegio utiliza una herramienta de IA para recomendar qué estudiantes deben postularse a becas universitarias de ingeniería y liderazgo. Al auditar la Tarjeta de Modelo (Model Card), el comité docente descubre que el sistema fue entrenado únicamente con datos históricos de admisiones de hace 15 años de un solo país y no incluye métricas de precisión desagregadas por género, origen socioeconómico o discapacidad.",
+        question: "¿Cuál es el riesgo ético principal identificado en esta auditoría documental?",
+        options: [
+          "Generación de deuda cognitiva en los estudiantes de último año.",
+          "Reproducción de discriminación estructural y sesgos algorítmicos contra grupos vulnerables.",
+          "Violación de la propiedad intelectual de las universidades receptoras.",
+          "Consumo hídrico excesivo por procesamiento de datos históricos."
+        ],
+        correct: 1,
+        feedbackOk: "¡Muy bien! Entrenar modelos con datos históricos sesgados y sin auditorías de equidad perpetúa la discriminación estructural por género, nivel socioeconómico o discapacidad. Auditar las Model Cards permite exigir representatividad y mitigar exclusiones antes de adoptar la herramienta.",
+        feedbackErr: "Fíjate en los datos de entrenamiento descritos en la Model Card: al usar registros históricos antiguos sin evaluar el impacto por género o condición social, el sistema automatiza y amplifica sesgos algorítmicos y discriminación."
+      },
+      {
+        id: 5,
+        tag: "Escenario 5 · Corresponsabilidad y Cláusulas Abusivas",
+        title: "La cláusula de exención total de responsabilidad",
+        context: "Una escuela firma un contrato para usar un chatbot educativo de apoyo en ciencias naturales para niños de 10 años. En los Términos de Uso, la empresa incluye la siguiente cláusula abusiva: «El proveedor no garantiza la veracidad ni la seguridad de las respuestas generadas por la IA y se exime de toda responsabilidad legal o pedagógica por información falsa, sesgada o inapropiada para menores, recayendo toda culpa exclusivamente en el docente de aula».",
+        question: "Desde la perspectiva de gobernanza y cocreación de reglas éticas (UNESCO), ¿por qué esta cláusula es inaceptable y qué acción institucional corresponde?",
+        options: [
+          "Porque los proveedores tienen la obligación legal y social de garantizar la adecuación por edad, prevenir riesgos predecibles y asumir responsabilidad por el diseño; la escuela debe exigir un Anexo Educativo (DPA) o rechazar la herramienta.",
+          "Porque los docentes nunca tienen ninguna responsabilidad cuando usan tecnología en el aula.",
+          "Porque los chatbots de ciencias naturales están clasificados como de riesgo mínimo y no requieren revisión contractual.",
+          "Porque la única solución es prohibir que los estudiantes de primaria utilicen cualquier recurso digital."
+        ],
+        correct: 0,
+        feedbackOk: "¡Acertaste! Según la UNESCO, la gobernanza ética exige corresponsabilidad: los proveedores deben responder por la seguridad, el etiquetado de errores y la adecuación por edad («ética por diseño»), y la institución debe validar las herramientas en una «lista blanca» antes de exigirle cuentas al docente de aula.",
+        feedbackErr: "Recuerda el principio de corresponsabilidad: aunque el docente guía el uso pedagógico, las empresas no pueden evadir su responsabilidad sobre la seguridad y adecuación por edad de sus productos. La institución debe auditar los contratos antes de su adopción."
+      }
+    ];
+
+    let state = {
+      name: "",
+      email: "",
+      currentIndex: 0,
+      selectedOption: null,
+      answers: Array(QUESTIONS.length).fill(null), // guarda índice elegido cuando se confirma
+      remainingSeconds: TOTAL_SECONDS,
+      completed: false,
+      verificationCode: "",
+      emailSent: false
+    };
+
+    let timerInterval = null;
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return null;
+        return JSON.parse(raw);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        const badge = document.getElementById("save-indicator");
+        if (badge) {
+          badge.textContent = "Guardado · " + new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+        }
+      } catch (e) {
+        console.warn("No se pudo guardar en localStorage", e);
+      }
+    }
+
+    function init() {
+      const saved = loadState();
+      if (saved && saved.name && saved.email) {
+        const resumeBox = document.getElementById("resume-container");
+        resumeBox.classList.remove("hidden");
+        const answeredCount = saved.answers.filter(a => a !== null).length;
+        resumeBox.innerHTML = `
+          <strong>Se encontró una sesión guardada de ${escapeHtml(saved.name)} (${escapeHtml(saved.email)})</strong><br>
+          Progreso registrado: ${answeredCount} de ${QUESTIONS.length} escenarios completados.<br><br>
+          <button type="button" class="btn btn-primary" onclick="resumeSavedSession()">Continuar sesión guardada</button>
+          <button type="button" class="btn btn-secondary" onclick="discardSavedSession()">Iniciar nuevo registro</button>
+        `;
+      }
+    }
+
+    function resumeSavedSession() {
+      const saved = loadState();
+      if (!saved) return;
+      state = saved;
+      enterActiveSession();
+    }
+
+    function discardSavedSession() {
+      localStorage.removeItem(STORAGE_KEY);
+      document.getElementById("resume-container").classList.add("hidden");
+    }
+
+    function startQuiz(event) {
+      event.preventDefault();
+      const nameVal = document.getElementById("input-name").value.trim();
+      const emailVal = document.getElementById("input-email").value.trim();
+      if (!nameVal || !emailVal) return;
+
+      state = {
+        name: nameVal,
+        email: emailVal,
+        currentIndex: 0,
+        selectedOption: null,
+        answers: Array(QUESTIONS.length).fill(null),
+        remainingSeconds: TOTAL_SECONDS,
+        completed: false,
+        verificationCode: generateCode(),
+        emailSent: false
+      };
+      saveState();
+      enterActiveSession();
+    }
+
+    function enterActiveSession() {
+      document.getElementById("screen-register").classList.add("hidden");
+      document.getElementById("status-bar").classList.remove("hidden");
+      document.getElementById("user-display").textContent = `${state.name} (${state.email})`;
+
+      if (state.completed) {
+        showResultsScreen();
+      } else {
+        document.getElementById("screen-quiz").classList.remove("hidden");
+        startTimer();
+        renderQuestion();
+      }
+    }
+
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      updateTimerUI();
+      timerInterval = setInterval(() => {
+        if (state.remainingSeconds <= 0) {
+          clearInterval(timerInterval);
+          finishQuiz();
+          return;
+        }
+        state.remainingSeconds -= 1;
+        updateTimerUI();
+        if (state.remainingSeconds % 5 === 0) saveState();
+      }, 1000);
+    }
+
+    function updateTimerUI() {
+      const mins = Math.floor(state.remainingSeconds / 60);
+      const secs = state.remainingSeconds % 60;
+      const el = document.getElementById("timer-display");
+      el.textContent = `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+      el.classList.toggle("warning", state.remainingSeconds <= 120);
+    }
+
+    function getScore() {
+      let score = 0;
+      state.answers.forEach((ans, idx) => {
+        if (ans !== null && ans === QUESTIONS[idx].correct) score += 1;
+      });
+      return score;
+    }
+
+    function renderQuestion() {
+      const q = QUESTIONS[state.currentIndex];
+      const confirmedAns = state.answers[state.currentIndex];
+      const isLocked = confirmedAns !== null;
+      const activeChoice = isLocked ? confirmedAns : state.selectedOption;
+
+      document.getElementById("progress-label").textContent = `Escenario ${state.currentIndex + 1} de ${QUESTIONS.length}`;
+      document.getElementById("score-live").textContent = `Puntaje actual: ${getScore()} / ${QUESTIONS.length}`;
+      document.getElementById("progress-fill").style.width = `${((state.currentIndex + 1) / QUESTIONS.length) * 100}%`;
+
+      const letters = ["A", "B", "C", "D"];
+      const optionsHtml = q.options.map((opt, idx) => {
+        let cls = "option-item";
+        if (isLocked) {
+          cls += " locked";
+          if (idx === q.correct) cls += " correct";
+          else if (idx === confirmedAns) cls += " incorrect";
+        } else if (idx === activeChoice) {
+          cls += " selected";
+        }
+
+        return `
+          <button type="button" class="${cls}" onclick="selectOption(${idx})" ${isLocked ? "disabled" : ""}>
+            <span class="option-letter">${letters[idx]}</span>
+            <span>${escapeHtml(opt)}</span>
+          </button>
+        `;
+      }).join("");
+
+      document.getElementById("scenario-container").innerHTML = `
+        <div class="scenario-tag">${escapeHtml(q.tag)}</div>
+        <h3 class="scenario-title">${escapeHtml(q.title)}</h3>
+        <div class="scenario-context">${escapeHtml(q.context)}</div>
+        <div class="question-text">${escapeHtml(q.question)}</div>
+        <div class="options-list">${optionsHtml}</div>
+      `;
+
+      const fbBox = document.getElementById("feedback-container");
+      const btnConfirm = document.getElementById("btn-confirm");
+      const btnNext = document.getElementById("btn-next");
+      const btnPrev = document.getElementById("btn-prev");
+
+      btnPrev.disabled = state.currentIndex === 0;
+
+      if (isLocked) {
+        const isCorrect = confirmedAns === q.correct;
+        fbBox.classList.remove("hidden");
+        fbBox.className = `feedback-box ${isCorrect ? "ok" : "err"}`;
+        fbBox.innerHTML = `
+          <h4>${isCorrect ? "Respuesta Correcta" : "Respuesta Incorrecta · Respuesta correcta: " + letters[q.correct]}</h4>
+          <p>${escapeHtml(isCorrect ? q.feedbackOk : q.feedbackErr)}</p>
+        `;
+        btnConfirm.classList.add("hidden");
+        btnNext.classList.remove("hidden");
+        btnNext.textContent = state.currentIndex === QUESTIONS.length - 1 ? "Finalizar y ver nota" : "Siguiente escenario";
+      } else {
+        fbBox.classList.add("hidden");
+        btnConfirm.classList.remove("hidden");
+        btnConfirm.disabled = state.selectedOption === null;
+        btnNext.classList.add("hidden");
+      }
+    }
+
+    function selectOption(idx) {
+      if (state.answers[state.currentIndex] !== null) return;
+      state.selectedOption = idx;
+      saveState();
+      renderQuestion();
+    }
+
+    function confirmAnswer() {
+      if (state.selectedOption === null) return;
+      state.answers[state.currentIndex] = state.selectedOption;
+      state.selectedOption = null;
+      saveState();
+      renderQuestion();
+    }
+
+    function prevQuestion() {
+      if (state.currentIndex > 0) {
+        state.currentIndex -= 1;
+        state.selectedOption = null;
+        saveState();
+        renderQuestion();
+      }
+    }
+
+    function nextQuestion() {
+      if (state.currentIndex < QUESTIONS.length - 1) {
+        state.currentIndex += 1;
+        state.selectedOption = null;
+        saveState();
+        renderQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function finishQuiz() {
+      if (timerInterval) clearInterval(timerInterval);
+      state.completed = true;
+      if (!state.verificationCode) state.verificationCode = generateCode();
+      saveState();
+      showResultsScreen();
+    }
+
+    function getLevelData(score) {
+      if (score === 5) {
+        return {
+          level: "Auditor Ético Experto (5/5)",
+          desc: "Dominas los criterios de validación institucional y detectas riesgos críticos en contratos, Model Cards y diseño algorítmico. Estás listo para avanzar a la Micro-actividad 1.2 (Matriz Comparativa)."
+        };
+      } else if (score >= 3) {
+        return {
+          level: "Auditor en Consolidación (" + score + "/5)",
+          desc: "Identificas los riesgos principales de privacidad y supervisión humana, pero conviene reforzar la revisión de documentos técnicos (Model Cards) y marcos regulatorios. Repasa la Infografía Interactiva 1.3 antes de continuar."
+        };
+      } else {
+        return {
+          level: "Requiere Revisión (" + score + "/5)",
+          desc: "Te recomendamos revisar nuevamente la Micro-lectura 1.1 y el Micro-video 1.2 sobre cómo inspeccionar términos de uso y políticas de datos escolares antes de repetir el intento."
+        };
+      }
+    }
+
+    function showResultsScreen() {
+      document.getElementById("screen-quiz").classList.add("hidden");
+      document.getElementById("screen-results").classList.remove("hidden");
+
+      const score = getScore();
+      const levelInfo = getLevelData(score);
+      const letters = ["A", "B", "C", "D"];
+
+      document.getElementById("res-level").textContent = levelInfo.level;
+      document.getElementById("res-score").textContent = `${score} / ${QUESTIONS.length}`;
+      document.getElementById("res-meta").textContent = `Participante: ${state.name} · Correo: ${state.email} · Código: ${state.verificationCode}`;
+      document.getElementById("res-feedback-global").textContent = levelInfo.desc;
+
+      const tbody = document.getElementById("res-table-body");
+      tbody.innerHTML = QUESTIONS.map((q, idx) => {
+        const ans = state.answers[idx];
+        const isOk = ans === q.correct;
+        const userText = ans !== null ? `${letters[ans]}) ${q.options[ans]}` : "Sin responder (tiempo agotado)";
+        return `
+          <tr>
+            <td><strong>${escapeHtml(q.title)}</strong></td>
+            <td>${escapeHtml(userText)}</td>
+            <td style="font-weight:700; color:${isOk ? "#059669" : "#dc2626"};">${isOk ? "Correcta" : "Incorrecta"}</td>
+          </tr>
+        `;
+      }).join("");
+
+      if (!state.emailSent) {
+        sendEmailAutomatically(false);
+      } else {
+        const banner = document.getElementById("mail-banner");
+        banner.className = "mail-status-banner sent";
+        banner.innerHTML = `<strong>Copia enviada automáticamente</strong> a <strong>${escapeHtml(state.email)}</strong>. Revisa tu bandeja de entrada o carpeta de Spam.`;
+      }
+    }
+
+    function buildPlainReport() {
+      const score = getScore();
+      const levelInfo = getLevelData(score);
+      const letters = ["A", "B", "C", "D"];
+      let lines = [
+        "CONSTANCIA DE RESULTADOS · MICRO-ACTIVIDAD 1.1 (ÉTICA DE LA IA - UNESCO)",
+        `Participante: ${state.name}`,
+        `Correo: ${state.email}`,
+        `Calificación: ${score} / ${QUESTIONS.length} (${Math.round((score / QUESTIONS.length) * 100)}%)`,
+        `Nivel: ${levelInfo.level}`,
+        `Código de verificación: ${state.verificationCode}`,
+        "",
+        "DESGLOSE POR ESCENARIO:"
+      ];
+      QUESTIONS.forEach((q, idx) => {
+        const ans = state.answers[idx];
+        const status = ans === q.correct ? "CORRECTA" : "INCORRECTA";
+        const chosen = ans !== null ? `${letters[ans]}) ${q.options[ans]}` : "Sin responder";
+        lines.push(`${idx + 1}. ${q.title} -> [${status}] Elegida: ${chosen}`);
+      });
+      return lines.join("\n");
+    }
+
+    async function sendEmailAutomatically(isManualRetry) {
+      const banner = document.getElementById("mail-banner");
+      banner.className = "mail-status-banner sending";
+      banner.textContent = `Enviando copia automática de la calificación a ${state.email}...`;
+
+      const score = getScore();
+      const levelInfo = getLevelData(score);
+      const payload = {
+        _subject: `Nota Micro-actividad 1.1 (${score}/${QUESTIONS.length}) - ${state.name}`,
+        _template: "table",
+        _captcha: "false",
+        Participante: state.name,
+        Correo: state.email,
+        Calificacion: `${score} / ${QUESTIONS.length} (${Math.round((score / QUESTIONS.length) * 100)}%)`,
+        Nivel_Alcanzado: levelInfo.level,
+        Codigo_Verificacion: state.verificationCode,
+        Detalle_Escenarios: buildPlainReport()
+      };
+
+      if (CONFIG_ENVIO.CORREO_DOCENTE_COPIA) {
+        payload._cc = CONFIG_ENVIO.CORREO_DOCENTE_COPIA;
+      }
+
+      try {
+        const endpoint = CONFIG_ENVIO.WEBHOOK_PERSONALIZADO_URL || `https://formsubmit.co/ajax/${encodeURIComponent(state.email)}`;
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) throw new Error("Error HTTP " + response.status);
+
+        state.emailSent = true;
+        saveState();
+        banner.className = "mail-status-banner sent";
+        banner.innerHTML = `<strong>Copia enviada automáticamente</strong> a <strong>${escapeHtml(state.email)}</strong> (${new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}). Si es la primera vez que usas este servicio en ese correo, revisa tu bandeja de entrada o Spam para confirmar la recepción.`;
+      } catch (err) {
+        banner.className = "mail-status-banner error";
+        banner.innerHTML = `No fue posible completar el envío automático en segundo plano (posible bloqueo de red escolar). Usa el botón <strong>"Abrir en mi app de correo"</strong> o <strong>"Imprimir / Guardar PDF"</strong> para respaldar tu nota.`;
+      }
+    }
+
+    function openMailtoFallback() {
+      const score = getScore();
+      const subject = encodeURIComponent(`Resultados Micro-actividad 1.1 (${score}/${QUESTIONS.length}) - ${state.name}`);
+      const body = encodeURIComponent(buildPlainReport());
+      const cc = CONFIG_ENVIO.CORREO_DOCENTE_COPIA ? `&cc=${encodeURIComponent(CONFIG_ENVIO.CORREO_DOCENTE_COPIA)}` : "";
+      window.location.href = `mailto:${encodeURIComponent(state.email)}?subject=${subject}${cc}&body=${body}`;
+    }
+
+    function copyReportToClipboard() {
+      navigator.clipboard.writeText(buildPlainReport()).then(() => {
+        alert("Reporte de calificación copiado al portapapeles.");
+      });
+    }
+
+    function resetAllData() {
+      if (!confirm("¿Deseas borrar este intento guardado y comenzar desde cero?")) return;
+      localStorage.removeItem(STORAGE_KEY);
+      location.reload();
+    }
+
+    function generateCode() {
+      return "UNESCO-1.1-" + Math.random().toString(36).substring(2, 8).toUpperCase();
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    init();
+  </script>
+</body>
+</html>
