@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guía Gráfica de Riesgo Ético de la IA en Educación</title>
+  <style>
+    :root {
+      --unesco-blue: #005596;
+      --unesco-dark: #003b69;
+      --unesco-light: #e6f0f8;
+      --bg-page: #f4f7fa;
+      --bg-card: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #475569;
+      --border-subtle: #cbd5e1;
+
+      --low-bg: #ecfdf5;
+      --low-border: #6ee7b7;
+      --low-text: #065f46;
+      --low-accent: #059669;
+
+      --med-bg: #fffbeb;
+      --med-border: #fcd34d;
+      --med-text: #92400e;
+      --med-accent: #d97706;
+
+      --high-bg: #fef2f2;
+      --high-border: #fca5a5;
+      --high-text: #991b1b;
+      --high-accent: #dc2626;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Header Institucional */
+    header {
+      background: linear-gradient(135deg, var(--unesco-dark) 0%, var(--unesco-blue) 100%);
+      color: #ffffff;
+      padding: 2rem 1.25rem;
+      border-bottom: 4px solid #0077c8;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .badge-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      margin-bottom: 0.85rem;
+    }
+
+    header h1 {
+      font-size: clamp(1.5rem, 3vw, 2.15rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      max-width: 780px;
+      font-size: 0.98rem;
+      color: #e2e8f0;
+    }
+
+    /* Navegación de vistas */
+    .mode-bar {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0.85rem 1.25rem;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+    }
+
+    .mode-bar-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .tab-btn {
+      appearance: none;
+      border: 1px solid var(--border-subtle);
+      background: #f8fafc;
+      color: var(--text-main);
+      padding: 0.55rem 1rem;
+      border-radius: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .tab-btn:hover {
+      background: var(--unesco-light);
+      border-color: var(--unesco-blue);
+    }
+
+    .tab-btn.active {
+      background: var(--unesco-blue);
+      color: #ffffff;
+      border-color: var(--unesco-blue);
+    }
+
+    main {
+      padding: 1.75rem 1.25rem 3rem;
+    }
+
+    /* Panel de Filtros */
+    .filters-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 0.75rem;
+      padding: 1.15rem 1.25rem;
+      margin-bottom: 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .filter-group label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .pill {
+      appearance: none;
+      border: 1px solid var(--border-subtle);
+      background: #ffffff;
+      color: var(--text-main);
+      padding: 0.4rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .pill:hover {
+      border-color: var(--unesco-blue);
+    }
+
+    .pill.active {
+      background: var(--unesco-blue);
+      color: #ffffff;
+      border-color: var(--unesco-blue);
+    }
+
+    .pill.low.active { background: var(--low-accent); border-color: var(--low-accent); }
+    .pill.med.active { background: var(--med-accent); border-color: var(--med-accent); }
+    .pill.high.active { background: var(--high-accent); border-color: var(--high-accent); }
+
+    /* Resumen de Niveles */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .summary-card {
+      border-radius: 0.75rem;
+      padding: 1.1rem 1.25rem;
+      border: 1px solid;
+    }
+
+    .summary-card.low { background: var(--low-bg); border-color: var(--low-border); color: var(--low-text); }
+    .summary-card.med { background: var(--med-bg); border-color: var(--med-border); color: var(--med-text); }
+    .summary-card.high { background: var(--high-bg); border-color: var(--high-border); color: var(--high-text); }
+
+    .summary-card h2 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+    }
+
+    .summary-card p {
+      font-size: 0.88rem;
+      opacity: 0.92;
+    }
+
+    /* Tarjetas de Indicadores */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.15rem;
+    }
+
+    .indicator-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-top-width: 5px;
+      border-radius: 0.75rem;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 2px 5px rgba(15, 23, 42, 0.04);
+    }
+
+    .indicator-card.low { border-top-color: var(--low-accent); }
+    .indicator-card.med { border-top-color: var(--med-accent); }
+    .indicator-card.high { border-top-color: var(--high-accent); }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .dim-tag {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--unesco-blue);
+      background: var(--unesco-light);
+      padding: 0.22rem 0.6rem;
+      border-radius: 0.35rem;
+    }
+
+    .risk-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.22rem 0.65rem;
+      border-radius: 999px;
+    }
+
+    .risk-badge.low { background: var(--low-bg); color: var(--low-text); border: 1px solid var(--low-border); }
+    .risk-badge.med { background: var(--med-bg); color: var(--med-text); border: 1px solid var(--med-border); }
+    .risk-badge.high { background: var(--high-bg); color: var(--high-text); border: 1px solid var(--high-border); }
+
+    .indicator-card ul {
+      padding-left: 1.15rem;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: var(--text-main);
+    }
+
+    .indicator-card li {
+      margin-bottom: 0.45rem;
+    }
+
+    .protocol-box {
+      background: #f8fafc;
+      border-left: 3px solid var(--unesco-blue);
+      padding: 0.65rem 0.8rem;
+      border-radius: 0.35rem;
+      font-size: 0.84rem;
+      color: var(--text-muted);
+    }
+
+    .protocol-box strong {
+      color: var(--text-main);
+    }
+
+    /* Evaluador Rápido */
+    .hidden { display: none !important; }
+
+    .eval-layout {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    @media (max-width: 840px) {
+      .eval-layout { grid-template-columns: 1fr; }
+    }
+
+    .eval-box, .result-box {
+      background: #ffffff;
+      border: 1px solid var(--border-subtle);
+      border-radius: 0.75rem;
+      padding: 1.35rem;
+    }
+
+    .eval-question {
+      margin-bottom: 1.35rem;
+      padding-bottom: 1.15rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .eval-question:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .eval-question h3 {
+      font-size: 0.98rem;
+      color: var(--unesco-dark);
+      margin-bottom: 0.65rem;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      padding: 0.65rem 0.8rem;
+      border: 1px solid var(--border-subtle);
+      border-radius: 0.5rem;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      font-size: 0.88rem;
+      transition: background 0.15s ease;
+    }
+
+    .radio-option:hover {
+      background: #f8fafc;
+    }
+
+    .radio-option input {
+      margin-top: 0.22rem;
+      accent-color: var(--unesco-blue);
+    }
+
+    .verdict-banner {
+      padding: 1rem;
+      border-radius: 0.6rem;
+      border: 1px solid;
+      margin-bottom: 1rem;
+    }
+
+    .verdict-banner.neutral { background: #f8fafc; border-color: var(--border-subtle); color: var(--text-muted); }
+    .verdict-banner.low { background: var(--low-bg); border-color: var(--low-border); color: var(--low-text); }
+    .verdict-banner.med { background: var(--med-bg); border-color: var(--med-border); color: var(--med-text); }
+    .verdict-banner.high { background: var(--high-bg); border-color: var(--high-border); color: var(--high-text); }
+
+    .verdict-banner h4 {
+      font-size: 1.05rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .btn-action {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      background: var(--unesco-blue);
+      color: #ffffff;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 0.75rem;
+    }
+
+    .btn-action:hover {
+      background: var(--unesco-dark);
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-subtle);
+      background: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <div class="badge-top">Marco de Competencias IA · UNESCO (Nivel Crear)</div>
+      <h1>Guía Gráfica de Riesgo Ético de la IA en Educación</h1>
+      <p>Herramienta interactiva para auditar plataformas educativas y determinar su nivel de riesgo según su transparencia, autonomía humana y vigilancia de datos.</p>
+    </div>
+  </header>
+
+  <div class="mode-bar">
+    <div class="mode-bar-inner">
+      <div class="tabs">
+        <button class="tab-btn active" id="tab-explorer" onclick="switchTab('explorer')">Explorador Visual</button>
+        <button class="tab-btn" id="tab-evaluator" onclick="switchTab('evaluator')">Evaluador Rápido</button>
+      </div>
+      <span style="font-size:0.82rem; color:#475569;">Micromódulo 1 · Auditoría Ética Escolar</span>
+    </div>
+  </div>
+
+  <main class="container">
+    <!-- VISTA 1: EXPLORADOR VISUAL -->
+    <section id="view-explorer">
+      <div class="filters-card">
+        <div class="filter-group">
+          <label>Filtrar por Nivel de Riesgo</label>
+          <div class="pill-group" id="risk-filters">
+            <button class="pill active" data-risk="all" onclick="setRiskFilter('all', this)">Todos los niveles</button>
+            <button class="pill low" data-risk="low" onclick="setRiskFilter('low', this)">Riesgo Bajo</button>
+            <button class="pill med" data-risk="med" onclick="setRiskFilter('med', this)">Riesgo Medio</button>
+            <button class="pill high" data-risk="high" onclick="setRiskFilter('high', this)">Riesgo Alto</button>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <label>Filtrar por Dimensión Ética</label>
+          <div class="pill-group" id="dim-filters">
+            <button class="pill active" data-dim="all" onclick="setDimFilter('all', this)">Todas (3)</button>
+            <button class="pill" data-dim="transparencia" onclick="setDimFilter('transparencia', this)">Transparencia</button>
+            <button class="pill" data-dim="autonomia" onclick="setDimFilter('autonomia', this)">Autonomía</button>
+            <button class="pill" data-dim="vigilancia" onclick="setDimFilter('vigilancia', this)">Vigilancia</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="summary-grid">
+        <div class="summary-card low">
+          <h2>Riesgo Bajo · Uso Aprobado</h2>
+          <p>Apta para incorporación en la lista blanca institucional bajo práctica docente habitual.</p>
+        </div>
+        <div class="summary-card med">
+          <h2>Riesgo Medio · Uso Supervisado</h2>
+          <p>Requiere anonimización previa de datos, verificación de fuentes y mediación activa.</p>
+        </div>
+        <div class="summary-card high">
+          <h2>Riesgo Alto · Restringido / Prohibido</h2>
+          <p>Inadmisible en entornos escolares por vulnerar derechos, privacidad o agencia humana.</p>
+        </div>
+      </div>
+
+      <div class="cards-grid" id="cards-container"></div>
+    </section>
+
+    <!-- VISTA 2: EVALUADOR RÁPIDO -->
+    <section id="view-evaluator" class="hidden">
+      <div class="eval-layout">
+        <div class="eval-box">
+          <div class="eval-question">
+            <h3>1. Transparencia y Explicabilidad</h3>
+            <label class="radio-option">
+              <input type="radio" name="q_transp" value="1" onchange="calculateRisk()">
+              <span>Explica cómo funciona, etiqueta el contenido generado por IA y permite verificar fuentes.</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="q_transp" value="2" onchange="calculateRisk()">
+              <span>Funciona parcialmente como "caja negra" o puede generar alucinaciones, pero ofrece guías claras.</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="q_transp" value="3" onchange="calculateRisk()">
+              <span>Opacidad total sobre algoritmos/datos; emite veredictos sin explicabilidad ni auditoría posible.</span>
+            </label>
+          </div>
+
+          <div class="eval-question">
+            <h3>2. Autonomía y Capacidad de Acción Humana</h3>
+            <label class="radio-option">
+              <input type="radio" name="q_auton" value="1" onchange="calculateRisk()">
+              <span>Asiste al docente o estudiante bajo control humano total, fomentando el co-pensamiento.</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="q_auton" value="2" onchange="calculateRisk()">
+              <span>Automatiza tareas rutinarias o sugiere notas, pero permite edición y validación humana obligatoria.</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="q_auton" value="3" onchange="calculateRisk()">
+              <span>Toma decisiones sumativas automáticas (aprueba/reprueba/clasifica) sin intervención docente.</span>
+            </label>
+          </div>
+
+          <div class="eval-question">
+            <h3>3. Vigilancia y Privacidad de Datos</h3>
+            <label class="radio-option">
+              <input type="radio" name="q_vigil" value="1" onchange="calculateRisk()">
+              <span>No recopila datos personales de menores ni entrena modelos comerciales con las interacciones.</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="q_vigil" value="2" onchange="calculateRisk()">
+              <span>Recopila datos básicos con consentimiento informado y permite operar con registros anonimizados.</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="q_vigil" value="3" onchange="calculateRisk()">
+              <span>Realiza monitoreo biométrico/emocional en aula o cede datos de alumnos a terceros sin consentimiento.</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="result-box">
+          <h3 style="margin-bottom:0.85rem; color:#003b69;">Dictamen Preliminar de Auditoría</h3>
+          <div class="verdict-banner neutral" id="verdict-card">
+            <h4 id="verdict-title">Selecciona las 3 dimensiones</h4>
+            <p id="verdict-desc" style="font-size:0.88rem;">Marca una opción en cada criterio para calcular el nivel de riesgo bajo el principio de precaución.</p>
+          </div>
+          <div id="verdict-actions" style="font-size:0.86rem; color:#334155;"></div>
+          <button class="btn-action" id="copy-btn" onclick="copyReport()" style="display:none;">Copiar dictamen para informe</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Basado en el Marco de Competencias para Docentes en Materia de IA (UNESCO) y estándares regulatorios de protección escolar.
+  </footer>
+
+  <script>
+    const INDICATORS = [
+      {
+        dim: 'transparencia',
+        dimLabel: 'Transparencia y Explicabilidad',
+        risk: 'low',
+        riskLabel: 'Riesgo Bajo · Uso Aprobado',
+        items: [
+          'Informa claramente cómo procesa los datos y qué modelo utiliza.',
+          'Etiqueta los contenidos generados por IA de forma explícita.',
+          'Permite verificar fuentes o consultar bibliotecas académicas validadas.'
+        ],
+        protocol: 'Documentar la ficha técnica en la lista blanca institucional.'
+      },
+      {
+        dim: 'transparencia',
+        dimLabel: 'Transparencia y Explicabilidad',
+        risk: 'med',
+        riskLabel: 'Riesgo Medio · Uso Supervisado',
+        items: [
+          'Funciona parcialmente como "caja negra", pero ofrece guías de usuario claras.',
+          'Puede presentar alucinaciones o errores fácticos ocasionales.'
+        ],
+        protocol: 'Exigir contraste obligatorio con fuentes primarias por parte de docentes y alumnos.'
+      },
+      {
+        dim: 'transparencia',
+        dimLabel: 'Transparencia y Explicabilidad',
+        risk: 'high',
+        riskLabel: 'Riesgo Alto · Restringido / Prohibido',
+        items: [
+          'Opacidad total sobre los algoritmos, el entrenamiento y las fuentes de datos.',
+          'Genera calificaciones o diagnósticos sin explicabilidad ni posibilidad de auditar sesgos.'
+        ],
+        protocol: 'Rechazar su adopción por vulnerar el derecho a la explicación y auditoría.'
+      },
+      {
+        dim: 'autonomia',
+        dimLabel: 'Autonomía y Agencia Humana',
+        risk: 'low',
+        riskLabel: 'Riesgo Bajo · Uso Aprobado',
+        items: [
+          'Actúa como asistente bajo control y decisión total del docente y el estudiante.',
+          'Fomenta el co-pensamiento sin reemplazar el razonamiento propio.'
+        ],
+        protocol: 'Integrar mediante secuencias didácticas con validación humana explícita.'
+      },
+      {
+        dim: 'autonomia',
+        dimLabel: 'Autonomía y Agencia Humana',
+        risk: 'med',
+        riskLabel: 'Riesgo Medio · Uso Supervisado',
+        items: [
+          'Automatiza tareas rutinarias o sugiere retroalimentación formativa.',
+          'Riesgo moderado de dependencia o deuda cognitiva sin mediación pedagógica.'
+        ],
+        protocol: 'Aplicar regla Human-in-the-loop antes de compartir resultados con estudiantes.'
+      },
+      {
+        dim: 'autonomia',
+        dimLabel: 'Autonomía y Agencia Humana',
+        risk: 'high',
+        riskLabel: 'Riesgo Alto · Restringido / Prohibido',
+        items: [
+          'Toma decisiones autónomas de alto impacto (notas finales, clasificación o exclusión).',
+          'Impide al docente modificar veredictos o sustituye el pensamiento crítico.'
+        ],
+        protocol: 'Prohibir su uso sumativo; ninguna evaluación crítica puede delegarse a la IA.'
+      },
+      {
+        dim: 'vigilancia',
+        dimLabel: 'Vigilancia y Privacidad de Datos',
+        risk: 'low',
+        riskLabel: 'Riesgo Bajo · Uso Aprobado',
+        items: [
+          'No recopila datos personales ni biométricos de menores.',
+          'Procesamiento local o cerrado que no entrena modelos comerciales externos.'
+        ],
+        protocol: 'Aprobar verificando vigencia anual de los Términos de Servicio.'
+      },
+      {
+        dim: 'vigilancia',
+        dimLabel: 'Vigilancia y Privacidad de Datos',
+        risk: 'med',
+        riskLabel: 'Riesgo Medio · Uso Supervisado',
+        items: [
+          'Recopila datos básicos con consentimiento informado y políticas explícitas.',
+          'Requiere anonimización previa de nombres o trabajos estudiantiles.'
+        ],
+        protocol: 'Prohibir el ingreso de nombres reales, documentos o datos identificables.'
+      },
+      {
+        dim: 'vigilancia',
+        dimLabel: 'Vigilancia y Privacidad de Datos',
+        risk: 'high',
+        riskLabel: 'Riesgo Alto · Restringido / Prohibido',
+        items: [
+          'Realiza monitoreo biométrico o reconocimiento emocional mediante cámaras/micrófonos.',
+          'Explota comercialmente datos de menores o exige cesión perpetua de derechos.'
+        ],
+        protocol: 'Bloquear inmediatamente y reportar a dirección académica / protección de datos.'
+      }
+    ];
+
+    let currentRisk = 'all';
+    let currentDim = 'all';
+
+    function renderCards() {
+      const container = document.getElementById('cards-container');
+      const filtered = INDICATORS.filter(item => {
+        const matchRisk = currentRisk === 'all' || item.risk === currentRisk;
+        const matchDim = currentDim === 'all' || item.dim === currentDim;
+        return matchRisk && matchDim;
+      });
+
+      container.innerHTML = filtered.map(item => `
+        <article class="indicator-card ${item.risk}">
+          <div>
+            <div class="card-meta">
+              <span class="dim-tag">${item.dimLabel}</span>
+              <span class="risk-badge ${item.risk}">${item.riskLabel}</span>
+            </div>
+            <ul>
+              ${item.items.map(li => `<li>${li}</li>`).join('')}
+            </ul>
+          </div>
+          <div class="protocol-box">
+            <strong>Protocolo sugerido:</strong> ${item.protocol}
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function setRiskFilter(risk, btn) {
+      currentRisk = risk;
+      document.querySelectorAll('#risk-filters .pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      renderCards();
+    }
+
+    function setDimFilter(dim, btn) {
+      currentDim = dim;
+      document.querySelectorAll('#dim-filters .pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      renderCards();
+    }
+
+    function switchTab(tab) {
+      const isExplorer = tab === 'explorer';
+      document.getElementById('view-explorer').classList.toggle('hidden', !isExplorer);
+      document.getElementById('view-evaluator').classList.toggle('hidden', isExplorer);
+      document.getElementById('tab-explorer').classList.toggle('active', isExplorer);
+      document.getElementById('tab-evaluator').classList.toggle('active', !isExplorer);
+    }
+
+    function calculateRisk() {
+      const t = document.querySelector('input[name="q_transp"]:checked');
+      const a = document.querySelector('input[name="q_auton"]:checked');
+      const v = document.querySelector('input[name="q_vigil"]:checked');
+
+      if (!t || !a || !v) return;
+
+      const scores = [parseInt(t.value), parseInt(a.value), parseInt(v.value)];
+      const maxRisk = Math.max(...scores); // Principio de precaución
+
+      const card = document.getElementById('verdict-card');
+      const title = document.getElementById('verdict-title');
+      const desc = document.getElementById('verdict-desc');
+      const actions = document.getElementById('verdict-actions');
+      const copyBtn = document.getElementById('copy-btn');
+
+      card.className = 'verdict-banner';
+      copyBtn.style.display = 'block';
+
+      if (maxRisk === 3) {
+        card.classList.add('high');
+        title.textContent = 'RIESGO ALTO · Uso Restringido / Prohibido';
+        desc.textContent = 'Se detectó al menos un indicador crítico que compromete la privacidad, los derechos o la agencia humana en el aula.';
+        actions.innerHTML = '<strong>Acción recomendada:</strong> Rechazar la plataforma, no ingresar datos de estudiantes y notificar el hallazgo al comité académico.';
+      } else if (maxRisk === 2) {
+        card.classList.add('med');
+        title.textContent = 'RIESGO MEDIO · Uso Supervisado';
+        desc.textContent = 'La herramienta puede utilizarse únicamente bajo protocolos institucionales de mediación y resguardo de datos.';
+        actions.innerHTML = '<strong>Acción recomendada:</strong> Anonimizar registros estudiantiles, verificar resultados con fuentes confiables y mantener revisión docente obligatoria.';
+      } else {
+        card.classList.add('low');
+        title.textContent = 'RIESGO BAJO · Uso Aprobado';
+        desc.textContent = 'Cumple con criterios fundamentales de transparencia, control humano y protección de datos escolares.';
+        actions.innerHTML = '<strong>Acción recomendada:</strong> Incorporar en la lista blanca institucional y revisar periódicamente cambios en sus Términos de Servicio.';
+      }
+    }
+
+    function copyReport() {
+      const title = document.getElementById('verdict-title').textContent;
+      const desc = document.getElementById('verdict-desc').textContent;
+      const actions = document.getElementById('verdict-actions').textContent;
+      const text = `DICTAMEN DE AUDITORÍA ÉTICA (IA EN EDUCACIÓN)\nResultado: ${title}\nDiagnóstico: ${desc}\n${actions}`;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById('copy-btn');
+        btn.textContent = '¡Dictamen copiado al portapapeles!';
+        setTimeout(() => { btn.textContent = 'Copiar dictamen para informe'; }, 2200);
+      });
+    }
+
+    renderCards();
+  </script>
+</body>
+</html>
